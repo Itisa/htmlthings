@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+	#main{
+		background: #dedede;
+	}
+</style>
+<body onkeydown="keydown(event)">
+<canvas id="main" width="1450" height="720"></canvas>
+</body>
+<script type="text/javascript">
+	var theta = 0;
+	var R = 100;
+	function draw(R,theta) {
+		var a = 15; // side length of the triangle
+		var X = 700; // positon X of the top angle
+		var Y = 350; // positon Y of the top angle
+		var color = "red" // color of the triangle
+		
+		var pi = Math.PI
+		var canvas = document.getElementById('main');
+		var c = canvas.getContext("2d");
+		
+		var cos = Math.cos(theta)
+		var sin = Math.sin(theta)
+		c.translate(X,Y);
+		
+		// method ONE
+		// sq3 = 1.73205;
+		// alpha = Math.atan((a/2) / (R+sq3*a/2) );
+		// RR = a / (2*Math.sin(alpha))
+		// c.beginPath();
+		// c.moveTo(R*cos,R*sin);
+		// c.lineTo(RR*Math.cos(theta - alpha),RR*Math.sin(theta - alpha));
+		// c.lineTo(RR*Math.cos(theta + alpha),RR*Math.sin(theta + alpha));
+		// c.closePath();
+		// c.fillStyle = color;
+		// c.fill();
+
+		// method TWO
+		c.translate(cos*R,sin*R);
+		c.beginPath()
+		c.moveTo(0,0)
+		c.lineTo(a*Math.cos(pi /6+theta), a*Math.sin(pi /6+theta));
+		c.lineTo(a*Math.cos(pi /6+theta)+a*sin, a*Math.sin(pi /6+theta)-a*cos)
+		c.closePath()
+		c.fillStyle = color;
+		c.fill();
+		c.translate(-cos*R,-sin*R);
+		c.translate(-X,-Y);
+	}
+
+
+	// local test 
+	function keydown(ev) {
+		console.log(ev)
+		switch(ev.key){
+			case "ArrowRight":
+				theta += 0.1;
+				draw(R,theta)
+				break;
+			case "ArrowLeft":
+				theta -= 0.1;
+				draw(R,theta)
+				break
+		}
+	}
+	draw(R,theta);
+
+</script>
+
+
+
+</html>
